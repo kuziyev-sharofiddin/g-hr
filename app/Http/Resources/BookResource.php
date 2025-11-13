@@ -27,26 +27,26 @@ class BookResource extends JsonResource
 
         return [
             'id' => $this->id,
-            "book_details" => $this->booksLanguages->map(function ($booksLanguage) {
+            "book_details" => $this->booksLanguages ? $this->booksLanguages->map(function ($booksLanguage) {
                 return [
-                    'language_id' => $booksLanguage->book_language_id,
+                    'language_id' => $booksLanguage->book_language_id ?? null,
                     'language_name' => $booksLanguage->language->name ?? null,
-                    'name' => $booksLanguage->name,
-                    'short_description' => $booksLanguage->short_description,
-                    'long_description' => $booksLanguage->long_description,
+                    'name' => $booksLanguage->name ?? null,
+                    'short_description' => $booksLanguage->short_description ?? null,
+                    'long_description' => $booksLanguage->long_description ?? null,
                 ];
-            }),
+            }) : [],
 
             'book_author' => [
                 'id' => $this->bookAuthor->id ?? null,
                 'name' => $this->bookAuthor->name ?? null,
             ],
-            'book_language' => $this->booksLanguages->map(function ($booksLanguage) {
+            'book_language' => $this->booksLanguages ? $this->booksLanguages->map(function ($booksLanguage) {
                 return [
                     'id' => $booksLanguage->language->id ?? null,
                     'name' => $booksLanguage->language->name ?? null,
                 ];
-            }),
+            }) : [],
             'book_genre' => [
                 'id' => $this->bookGenre->id ?? null,
                 'name' => $this->bookGenre->name ?? null,
