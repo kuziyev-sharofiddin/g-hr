@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Book routes
 Route::middleware(['auth', 'verified'])->prefix('documents')->group(function () {
     // Books
-    Route::get('books', [\App\Http\Controllers\Web\Book\BookController::class, 'index'])->name('books.index');
+    Route::get('books', [\App\Http\Controllers\Web\Book\BookController::class, 'index'])->name('documents.books');
 
     // Book Authors
     Route::get('book-authors', [\App\Http\Controllers\Web\Book\BookAuthorController::class, 'index'])->name('book-authors.index');
