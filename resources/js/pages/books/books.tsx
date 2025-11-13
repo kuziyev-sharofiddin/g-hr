@@ -140,14 +140,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Books({ books, filters, filterOptions }: Props) {
     const [selectedBooks, setSelectedBooks] = useState<number[]>([]);
-    const [recommendedFilter, setRecommendedFilter] = useState(filters.status === 'recommended');
-    const [selectedAuthor, setSelectedAuthor] = useState<string>(filters.filters?.authors || '');
-    const [selectedGenre, setSelectedGenre] = useState<string>(filters.filters?.genres || '');
-    const [sortFilter, setSortFilter] = useState<string>(filters.feature || '');
+    const [recommendedFilter, setRecommendedFilter] = useState(filters?.status === 'recommended');
+    const [selectedAuthor, setSelectedAuthor] = useState<string>(filters?.filters?.authors || '');
+    const [selectedGenre, setSelectedGenre] = useState<string>(filters?.filters?.genres || '');
+    const [sortFilter, setSortFilter] = useState<string>(filters?.feature || '');
+
+    // Safe access to books data
+    const booksData = books?.data || [];
+    const currentPage = books?.current_page || 1;
+    const lastPage = books?.last_page || 1;
+    const perPage = books?.per_page || 20;
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
-            setSelectedBooks(books.data.map(book => book.id));
+            setSelectedBooks(booksData.map(book => book.id));
         } else {
             setSelectedBooks([]);
         }
@@ -186,7 +192,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
 
         if (newFilters.status !== undefined) {
             if (newFilters.status !== 'all') params.status = newFilters.status;
-        } else if (filters.status) {
+        } else if (filters?.status) {
             params.status = filters.status;
         }
 
@@ -221,7 +227,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
 
     const handlePageChange = (page: number) => {
         const params: any = { page };
-        if (filters.status) params.status = filters.status;
+        if (filters?.status) params.status = filters.status;
         if (sortFilter) params.feature = sortFilter;
         if (selectedAuthor || selectedGenre) {
             params.filters = {
@@ -320,7 +326,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="">Barchasi</SelectItem>
-                            {filterOptions.authors.map((author) => (
+                            {filterOptions?.authors?.map((author) => (
                                 <SelectItem key={author.id} value={author.name}>
                                     {author.name}
                                 </SelectItem>
@@ -335,7 +341,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="">Barchasi</SelectItem>
-                            {filterOptions.genres.map((genre) => (
+                            {filterOptions?.genres?.map((genre) => (
                                 <SelectItem key={genre.id} value={genre.name}>
                                     {genre.name}
                                 </SelectItem>
@@ -351,7 +357,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
                             <TableRow>
                                 <TableHead className="w-[50px]">
                                     <Checkbox
-                                        checked={selectedBooks.length === books.data.length && books.data.length > 0}
+                                        checked={selectedBooks.length === booksData.length && booksData.length > 0}
                                         onCheckedChange={handleSelectAll}
                                     />
                                 </TableHead>
@@ -363,14 +369,14 @@ export default function Books({ books, filters, filterOptions }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {books.data.length === 0 ? (
+                            {booksData.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
                                         Kitoblar topilmadi
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                books.data.map((book, index) => {
+                                booksData.map((book, index) => {
                                     const bookDetail = book.book_details?.[0];
                                     return (
                                         <TableRow key={book.id}>
@@ -380,7 +386,7 @@ export default function Books({ books, filters, filterOptions }: Props) {
                                                     onCheckedChange={(checked) => handleSelectBook(book.id, checked as boolean)}
                                                 />
                                             </TableCell>
-                                            <TableCell>{(books.current_page - 1) * books.per_page + index + 1}</TableCell>
+                                            <TableCell>{(currentPage - 1) * perPage + index + 1}</TableCell>
                                             <TableCell>{book.created_at}</TableCell>
                                             <TableCell className="font-medium">{bookDetail?.name || '-'}</TableCell>
                                             <TableCell className="text-sm text-muted-foreground">
@@ -402,29 +408,29 @@ export default function Books({ books, filters, filterOptions }: Props) {
                 </div>
 
                 {/* Pagination */}
-                {books.last_page > 1 && (
+                {lastPage > 1 && (
                     <div className="flex justify-center">
                         <Pagination>
                             <PaginationContent>
                                 <PaginationItem>
                                     <PaginationPrevious
-                                        onClick={() => books.current_page > 1 && handlePageChange(books.current_page - 1)}
-                                        className={books.current_page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                                     />
                                 </PaginationItem>
 
-                                {[...Array(books.last_page)].map((_, index) => {
+                                {[...Array(lastPage)].map((_, index) => {
                                     const pageNumber = index + 1;
                                     if (
                                         pageNumber === 1 ||
-                                        pageNumber === books.last_page ||
-                                        (pageNumber >= books.current_page - 1 && pageNumber <= books.current_page + 1)
+                                        pageNumber === lastPage ||
+                                        (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
                                     ) {
                                         return (
                                             <PaginationItem key={pageNumber}>
                                                 <PaginationLink
                                                     onClick={() => handlePageChange(pageNumber)}
-                                                    isActive={pageNumber === books.current_page}
+                                                    isActive={pageNumber === currentPage}
                                                     className="cursor-pointer"
                                                 >
                                                     {pageNumber}
@@ -433,8 +439,8 @@ export default function Books({ books, filters, filterOptions }: Props) {
                                         );
                                     }
                                     if (
-                                        pageNumber === books.current_page - 2 ||
-                                        pageNumber === books.current_page + 2
+                                        pageNumber === currentPage - 2 ||
+                                        pageNumber === currentPage + 2
                                     ) {
                                         return <PaginationItem key={pageNumber}>...</PaginationItem>;
                                     }
@@ -443,8 +449,8 @@ export default function Books({ books, filters, filterOptions }: Props) {
 
                                 <PaginationItem>
                                     <PaginationNext
-                                        onClick={() => books.current_page < books.last_page && handlePageChange(books.current_page + 1)}
-                                        className={books.current_page === books.last_page ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                        onClick={() => currentPage < lastPage && handlePageChange(currentPage + 1)}
+                                        className={currentPage === lastPage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                                     />
                                 </PaginationItem>
                             </PaginationContent>
