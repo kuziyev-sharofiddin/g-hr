@@ -23,7 +23,14 @@ class BookController extends Controller
         $search = $request->search;
         $filters = $request->filters; //  { "authors": "Pushkin", "genres": "ilmiy", "languages": "rus" }
 
-        $query = Book::query()->with(['bookAuthor', 'bookGenre', 'booksLanguages.language', 'featuredBooks', 'comments']);
+        $query = Book::query()->with([
+            'bookAuthor',
+            'bookGenre',
+            'booksLanguages',
+            'booksLanguages.language',
+            'featuredBooks',
+            'comments'
+        ]);
 
         // Apply filters based on status
         if ($status !== 'all') {
