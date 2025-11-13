@@ -103,16 +103,18 @@ interface FilterOptions {
     languages: Language[];
 }
 
+interface BooksResponse {
+    data: Book[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    from: number;
+    to: number;
+}
+
 interface Props {
-    books: {
-        data: Book[];
-        current_page: number;
-        last_page: number;
-        per_page: number;
-        total: number;
-        from: number;
-        to: number;
-    };
+    books: BooksResponse;
     filters: {
         search?: string;
         status?: string;
