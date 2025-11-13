@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Web\Book;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Book\Book;
+use App\Models\Book\BookAuthor;
+use App\Models\Book\Genre;
+use App\Models\Book\BookLanguage;
 use App\Enums\BookStatus;
 use App\Enums\FeatureBookStatus;
 use Illuminate\Http\Request;
@@ -103,6 +106,13 @@ class BookController extends Controller
             return (new BookResource($book))->resolve();
         });
 
+        // Get filter options
+        $filterOptions = [
+            'authors' => BookAuthor::select('id', 'name')->orderBy('name')->get(),
+            'genres' => Genre::select('id', 'name', 'name_ru')->orderBy('name')->get(),
+            'languages' => BookLanguage::select('id', 'name')->orderBy('name')->get(),
+        ];
+
         return Inertia::render('books/books', [
             'books' => $books,
             'filters' => [
@@ -111,6 +121,7 @@ class BookController extends Controller
                 'search' => $search,
                 'filters' => $filters,
             ],
+            'filterOptions' => $filterOptions,
         ]);
     }
 }
