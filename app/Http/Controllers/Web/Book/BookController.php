@@ -109,9 +109,11 @@ class BookController extends Controller
         $books = $query->latest()->paginate(20)->withQueryString();
 
         // Transform with BookResource
-        $books->getCollection()->transform(function ($book) {
-            return (new BookResource($book))->resolve();
+        $transformedData = $books->getCollection()->map(function ($book) {
+            return (new BookResource($book))->toArray(request());
         });
+
+        $books->setCollection($transformedData);
 
         // Get filter options
         $filterOptions = [
