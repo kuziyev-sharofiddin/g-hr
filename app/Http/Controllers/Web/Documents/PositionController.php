@@ -51,7 +51,7 @@ class PositionController extends Controller
         // Paginate
         $positions = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/positions', [
+        return Inertia::render('documents/positions', [
             'positions' => $positions,
             'filters' => $request->only(['search']),
         ]);

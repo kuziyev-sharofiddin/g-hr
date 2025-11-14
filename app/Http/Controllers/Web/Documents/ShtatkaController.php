@@ -68,7 +68,7 @@ class ShtatkaController extends Controller
             ];
         });
 
-        return Inertia::render('Documents/shtatka', [
+        return Inertia::render('documents/shtatka', [
             'branches' => $branches,
             'filters' => $request->only(['search']),
         ]);
@@ -102,7 +102,7 @@ class ShtatkaController extends Controller
         // Paginate
         $branches = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/branch', [
+        return Inertia::render('documents/branch', [
             'branches' => $branches,
             'filters' => $request->only(['search']),
         ]);

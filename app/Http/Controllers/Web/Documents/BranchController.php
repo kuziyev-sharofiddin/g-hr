@@ -55,7 +55,7 @@ class BranchController extends Controller
         // Paginate
         $branches = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/branch', [
+        return Inertia::render('documents/branch', [
             'branches' => $branches,
             'filters' => $request->only(['search']),
         ]);

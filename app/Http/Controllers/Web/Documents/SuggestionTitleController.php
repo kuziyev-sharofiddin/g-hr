@@ -47,7 +47,7 @@ class SuggestionTitleController extends Controller
             ];
         });
 
-        return Inertia::render('Documents/suggestion_titles', [
+        return Inertia::render('documents/suggestion_titles', [
             'suggestions' => $suggestions,
             'filters' => $request->only(['search']),
         ]);

@@ -50,7 +50,7 @@ class SectionController extends Controller
         // Paginate
         $sections = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/sections', [
+        return Inertia::render('documents/sections', [
             'sections' => $sections,
             'filters' => $request->only(['search']),
         ]);

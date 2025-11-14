@@ -47,7 +47,7 @@ class EmployeeApplicationTitleController extends Controller
         // Paginate
         $titles = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/application-titles', [
+        return Inertia::render('documents/application-titles', [
             'titles' => $titles,
             'filters' => $request->only(['search']),
         ]);

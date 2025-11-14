@@ -34,7 +34,7 @@ class DismissedWorkerReasonController extends Controller
         // Paginate
         $reasons = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Documents/dismissed-worker-reasons', [
+        return Inertia::render('documents/dismissed-worker-reasons', [
             'reasons' => $reasons,
             'filters' => $request->only(['search']),
         ]);

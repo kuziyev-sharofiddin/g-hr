@@ -46,7 +46,7 @@ class QuestionsForWorkerLevelController extends Controller
             ];
         });
 
-        return Inertia::render('Documents/question_for_worker_levels', [
+        return Inertia::render('documents/question_for_worker_levels', [
             'levels' => $levels,
             'filters' => $request->only(['search']),
         ]);

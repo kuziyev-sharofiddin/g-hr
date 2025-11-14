@@ -46,7 +46,7 @@ class QuestionsForWorkerCategoryController extends Controller
             ];
         });
 
-        return Inertia::render('Documents/question_for_worker_categories', [
+        return Inertia::render('documents/question_for_worker_categories', [
             'categories' => $categories,
             'filters' => $request->only(['search']),
         ]);
