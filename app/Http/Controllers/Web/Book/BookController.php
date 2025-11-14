@@ -108,11 +108,6 @@ class BookController extends Controller
         // Paginate
         $books = $query->latest()->paginate(20)->withQueryString();
 
-        // Transform with BookResource
-        $books->getCollection()->transform(function ($book) {
-            return (new BookResource($book))->resolve();
-        });
-
         // Get filter options
         $filterOptions = [
             'authors' => BookAuthor::select('id', 'name')->orderBy('name')->get(),

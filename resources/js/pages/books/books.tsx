@@ -31,40 +31,46 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 
-interface BookDetail {
-    language_id: number;
-    language_name: string;
+interface BooksLanguage {
+    id: number;
+    book_id: number;
+    book_language_id: number;
     name: string;
     short_description: string;
     long_description: string;
+    language?: {
+        id: number;
+        name: string;
+    };
 }
 
 interface Book {
     id: number;
-    book_details: BookDetail[];
-    book_author: {
+    name?: string;
+    short_description?: string;
+    long_description?: string;
+    book_author_id: number;
+    book_genre_id: number;
+    book_status: string;
+    responsible_worker: string;
+    responsible_worker_id: number;
+    recommended_by_worker?: string | null;
+    recommended_by_worker_id?: number | null;
+    image_path?: string | null;
+    created_at: string;
+    updated_at: string;
+    book_author?: {
         id: number;
         name: string;
     };
-    book_language: Array<{
-        id: number;
-        name: string;
-    }>;
-    book_genre: {
+    book_genre?: {
         id: number;
         name: string;
         name_ru: string;
     };
-    book_status: string;
-    responsible_worker: string;
-    recommended_by_worker: string | null;
-    image_path: string | null;
-    likes: number;
-    comments: number;
-    ratings: number;
-    read_workers: number;
-    average_rating: number;
-    created_at: string;
+    books_languages?: BooksLanguage[];
+    comments?: any[];
+    featured_books?: any[];
 }
 
 interface PaginationData {
@@ -377,7 +383,11 @@ export default function Books({ books, filters, filterOptions }: Props) {
                                 </TableRow>
                             ) : (
                                 booksData.map((book, index) => {
-                                    const bookDetail = book.book_details?.[0];
+                                    // Get first book language or fallback to main fields
+                                    const bookLanguage = book.books_languages?.[0];
+                                    const bookName = bookLanguage?.name || book.name || '-';
+                                    const bookDescription = bookLanguage?.short_description || book.short_description || '-';
+
                                     return (
                                         <TableRow key={book.id}>
                                             <TableCell>
@@ -387,10 +397,10 @@ export default function Books({ books, filters, filterOptions }: Props) {
                                                 />
                                             </TableCell>
                                             <TableCell>{(currentPage - 1) * perPage + index + 1}</TableCell>
-                                            <TableCell>{book.created_at}</TableCell>
-                                            <TableCell className="font-medium">{bookDetail?.name || '-'}</TableCell>
+                                            <TableCell>{new Date(book.created_at).toLocaleDateString('uz-UZ')}</TableCell>
+                                            <TableCell className="font-medium">{bookName}</TableCell>
                                             <TableCell className="text-sm text-muted-foreground">
-                                                {bookDetail?.short_description || '-'}
+                                                {bookDescription}
                                             </TableCell>
                                             <TableCell>
                                                 {book.book_status === 'recommended' && (
