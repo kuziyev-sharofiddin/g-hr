@@ -88,18 +88,18 @@ const mainNavItems: NavItem[] = [
         icon: Database,
         items: [
             {
-                title: 'Filiallar',
-                href: dashboard(),
-                icon: Building2
-            },
-            {
                 title: 'Bo\'limlar',
-                href: dashboard(),
+                href: '/documents/sections',
                 icon: FileText
             },
             {
+                title: 'Filiallar',
+                href: '/documents/branches',
+                icon: Building2
+            },
+            {
                 title: 'Lavozimlar',
-                href: dashboard(),
+                href: '/documents/positions',
                 icon: FileText
             },
             {
