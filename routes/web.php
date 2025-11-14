@@ -22,8 +22,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
    Route::get('for-filter-position', [\App\Http\Controllers\Filter\FilterController::class, 'filterPosition'])->name('for-filter-position');
 });
 
-// Book routes
+// Documents routes
 Route::middleware(['auth', 'verified'])->prefix('documents')->group(function () {
+    // Documents - Hujjatlar
+    Route::get('sections', [\App\Http\Controllers\Web\Documents\SectionController::class, 'index'])->name('documents.sections');
+    Route::post('sections', [\App\Http\Controllers\Web\Documents\SectionController::class, 'store'])->name('documents.sections.store');
+    Route::put('sections/{section}', [\App\Http\Controllers\Web\Documents\SectionController::class, 'update'])->name('documents.sections.update');
+    Route::delete('sections/{section}', [\App\Http\Controllers\Web\Documents\SectionController::class, 'destroy'])->name('documents.sections.destroy');
+
+    Route::get('branches', [\App\Http\Controllers\Web\Documents\BranchController::class, 'index'])->name('documents.branches');
+    Route::post('branches', [\App\Http\Controllers\Web\Documents\BranchController::class, 'store'])->name('documents.branches.store');
+    Route::put('branches/{branch}', [\App\Http\Controllers\Web\Documents\BranchController::class, 'update'])->name('documents.branches.update');
+    Route::delete('branches/{branch}', [\App\Http\Controllers\Web\Documents\BranchController::class, 'destroy'])->name('documents.branches.destroy');
+
+    Route::get('positions', [\App\Http\Controllers\Web\Documents\PositionController::class, 'index'])->name('documents.positions');
+    Route::post('positions', [\App\Http\Controllers\Web\Documents\PositionController::class, 'store'])->name('documents.positions.store');
+    Route::put('positions/{position}', [\App\Http\Controllers\Web\Documents\PositionController::class, 'update'])->name('documents.positions.update');
+    Route::delete('positions/{position}', [\App\Http\Controllers\Web\Documents\PositionController::class, 'destroy'])->name('documents.positions.destroy');
+
     // Books
     Route::get('books', [\App\Http\Controllers\Web\Book\BookController::class, 'index'])->name('documents.books');
 
