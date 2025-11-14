@@ -100,37 +100,37 @@ const mainNavItems: NavItem[] = [
             {
                 title: 'Lavozimlar',
                 href: '/documents/positions',
-                icon: FileText
+                icon: Award
             },
             {
                 title: 'Shtatka qo\'shish',
-                href: dashboard(),
+                href: '/documents/shtatka',
                 icon: Users
             },
             {
-                title: 'Murojaat sabablari',
-                href: dashboard(),
-                icon: MessageSquare
+                title: 'Ariza mavzulari',
+                href: '/documents/application-titles',
+                icon: ClipboardList
             },
             {
                 title: 'Xodim testi kategoriyalari',
-                href: dashboard(),
+                href: '/documents/question-for-worker-categories',
                 icon: ListTree
             },
             {
                 title: 'Xodimlar testi darajalari',
-                href: dashboard(),
+                href: '/documents/question-for-worker-levels',
                 icon: Award
             },
             {
                 title: 'Ishdan chiqarish sabablari',
-                href: dashboard(),
-                icon: Award
+                href: '/documents/dismissed-worker-reasons',
+                icon: LogOut
             },
             {
-                title: 'Ariza mavzulari',
-                href: dashboard(),
-                icon: FileText
+                title: 'Taklif mavzulari',
+                href: '/documents/suggestion-titles',
+                icon: Lightbulb
             }
         ]
     },
