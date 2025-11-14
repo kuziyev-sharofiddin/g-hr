@@ -27,4 +27,9 @@ class Position extends Model
         'responsible_worker',
         'section_id'
     ];
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 }
